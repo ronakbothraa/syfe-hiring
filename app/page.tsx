@@ -69,6 +69,18 @@ export default function Home() {
         <GoalsSection 
           goals={initialGoals}
           exchangeRate={exchangeRate}
+          onAddGoal={(goal) => {
+            const newGoal: Goal = {
+              ...goal,
+              id: Math.random().toString(36).substring(2, 15),
+              saved: 0,
+              progress: 0,
+              contributions: [],
+              remaining: goal.target,
+              createdAt: new Date().toISOString(),
+            };
+            initialGoals.push(newGoal);
+          }}
         />
       </div>
     </div>
