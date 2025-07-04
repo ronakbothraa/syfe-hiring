@@ -10,6 +10,7 @@ import { useState } from "react";
 interface GoalsSectionProps {
   goals: Goal[];
   exchangeRate: number | null;
+  onAddContribution: () => void;
   onAddGoal: (
     goal: Omit<
       Goal,
@@ -22,6 +23,7 @@ export default function GoalsSection({
   goals,
   exchangeRate,
   onAddGoal,
+  onAddContribution,
 }: GoalsSectionProps) {
   const [isAddGoalOpen, setIsAddGoalOpen] = useState(false);
 
@@ -40,7 +42,7 @@ export default function GoalsSection({
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {goals.map((goal) => (
-          <GoalCard key={goal.id} goal={goal} exchangeRate={exchangeRate} />
+          <GoalCard key={goal.id} goal={goal} exchangeRate={exchangeRate} onAddContribution={onAddContribution}/>
         ))}
       </div>
 

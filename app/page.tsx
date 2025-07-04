@@ -6,8 +6,6 @@ import GoalsSection from "@/components/GoalsSection";
 import { Goal } from "@/types/goal";
 import { useState } from "react";
 
-
-
 const initialGoals: Goal[] = [
   {
     id: "1",
@@ -47,7 +45,6 @@ const initialGoals: Goal[] = [
   },
 ]
 
-
 export default function Home() {
 
   const [exchangeRate, setExchangeRate] = useState<number | null>(85);
@@ -81,6 +78,7 @@ export default function Home() {
             };
             initialGoals.push(newGoal);
           }}
+          onAddContribution={() => {}}
         />
       </div>
     </div>
