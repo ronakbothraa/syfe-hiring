@@ -3,11 +3,54 @@
 import DashboardBanner from "@/components/DashboardBanner";
 import DashboardHeader from "@/components/DashboardHeader";
 import GoalsSection from "@/components/GoalsSection";
+import { Goal } from "@/types/goal";
 import { useState } from "react";
+
+
+
+const initialGoals: Goal[] = [
+  {
+    id: "1",
+    title: "Trip to Japan",
+    target: 15000,
+    saved: 300,
+    progress: 2,
+    contributions: [
+      {
+        id: "c1",
+        amount: 300,
+        date: "2024-01-15",
+        timestamp: new Date().toISOString(),
+      },
+    ],
+    remaining: 14700,
+    currency: "INR",
+    createdAt: "2024-01-01",
+  },
+  {
+    id: "2",
+    title: "Emergency Fund",
+    target: 6000,
+    saved: 3660,
+    progress: 61,
+    contributions: [
+      {
+        id: "c2",
+        amount: 3660,
+        date: "2024-01-10",
+        timestamp: new Date().toISOString(),
+      },
+    ],
+    remaining: 2340,
+    currency: "USD",
+    createdAt: "2024-01-01",
+  },
+]
+
 
 export default function Home() {
 
-  const [exchangeRate, setExchangeRate] = useState<number | null>(null);
+  const [exchangeRate, setExchangeRate] = useState<number | null>(85);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -23,7 +66,10 @@ export default function Home() {
           onRefreshRate={() => setExchangeRate(85)}
         />
 
-        <GoalsSection />
+        <GoalsSection 
+          goals={initialGoals}
+          exchangeRate={exchangeRate}
+        />
       </div>
     </div>
   );
