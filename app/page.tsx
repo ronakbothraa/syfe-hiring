@@ -1,4 +1,6 @@
+import DashboardBanner from "@/components/DashboardBanner";
 import DashboardHeader from "@/components/DashboardHeader";
+import GoalsSection from "@/components/GoalsSection";
 
 export default function Home() {
   return (
@@ -6,9 +8,9 @@ export default function Home() {
       <div className="max-w-6xl mx-auto p-6 space-y-8">
         <DashboardHeader />
 
-        {/* <DashboardBanner /> */}
+        <DashboardBanner exchangeRate={55} />
 
-        {/* <GoalsSection /> */}
+        <GoalsSection />
       </div>
     </div>
   );
