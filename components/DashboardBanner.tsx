@@ -2,7 +2,7 @@
 
 import { RefreshCw, TrendingUp, Target, BarChart3 } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import MetricCard from "./metric-card"
+import MetricCard from "@/components/metric-card"
 
 interface DashboardBannerProps {
   totalTarget: number
@@ -28,7 +28,7 @@ export default function DashboardBanner({
   }
 
   return (
-    <div className="bg-gradient-to-br from-indigo-600 via-purple-600 to-blue-700 rounded-2xl p-6 text-white shadow-xl">
+    <div className="bg-gradient-to-br from-indigo-600 via-purple-600 to-blue-700 dark:from-indigo-800 dark:via-purple-800 dark:to-blue-900 rounded-2xl p-6 text-white shadow-xl">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-2">
           <BarChart3 className="w-5 h-5" />
@@ -38,7 +38,7 @@ export default function DashboardBanner({
           onClick={onRefreshRate}
           variant="secondary"
           size="sm"
-          className="bg-white/20 hover:bg-white/30 text-white border-0"
+          className="bg-white/20 hover:bg-white/30 text-white border-0 dark:bg-white/10 dark:hover:bg-white/20"
           disabled={isLoadingRate}
         >
           <RefreshCw className={`w-4 h-4 mr-2 ${isLoadingRate ? "animate-spin" : ""}`} />
@@ -74,7 +74,7 @@ export default function DashboardBanner({
 
       <div className="flex items-center justify-between text-sm opacity-80">
         <span>Exchange Rate: 1 USD = ₹{exchangeRate?.toFixed(2) || "Loading..."}</span>
-        <span>Last updated: {"Few Mins Ago"}</span>
+        <span>Last updated: {"Loading..."}</span>
       </div>
     </div>
   )

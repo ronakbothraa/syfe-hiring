@@ -30,10 +30,10 @@ export default function GoalsSection({
   return (
     <div className="space-y-6 px-4 md:px-8">
       <div className="flex items-center justify-between">
-        <h2 className="text-xl font-semibold text-gray-900">Your Goals</h2>
+        <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Your Goals</h2>
         <Button
           onClick={() => setIsAddGoalOpen(true)}
-          className="bg-indigo-600 hover:bg-indigo-700"
+          className="bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600"
         >
           <Plus className="w-4 h-4 mr-2" />
           Add Goal
@@ -42,15 +42,11 @@ export default function GoalsSection({
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {goals.map((goal) => (
-          <GoalCard key={goal.id} goal={goal} exchangeRate={exchangeRate} onAddContribution={onAddContribution}/>
+          <GoalCard key={goal.id} goal={goal} exchangeRate={exchangeRate} onAddContribution={onAddContribution} />
         ))}
       </div>
 
-      <AddGoalModal
-        isOpen={isAddGoalOpen}
-        onClose={() => setIsAddGoalOpen(false)}
-        onAddGoal={onAddGoal}
-      />
+      <AddGoalModal isOpen={isAddGoalOpen} onClose={() => setIsAddGoalOpen(false)} onAddGoal={onAddGoal} />
     </div>
-  );
+  )
 }

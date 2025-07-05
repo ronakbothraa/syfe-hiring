@@ -12,8 +12,8 @@ interface MetricCardProps {
 }
 
 export default function MetricCard({ icon, title, value, subtitle, trend = "up" }: MetricCardProps) {
-  return (
-    <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 hover:bg-white/20 transition-all duration-300 cursor-pointer group">
+ return (
+    <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 hover:bg-white/20 dark:bg-white/5 dark:hover:bg-white/10 transition-all duration-300 cursor-pointer group">
       <div className="flex items-center gap-3 mb-3">
         <div className="text-white/80 group-hover:text-white transition-colors">{icon}</div>
         <span className="text-white/80 text-sm font-medium">{title}</span>

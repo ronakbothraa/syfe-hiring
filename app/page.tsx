@@ -2,7 +2,8 @@
 
 import DashboardBanner from "@/components/DashboardBanner";
 import DashboardHeader from "@/components/DashboardHeader";
-import GoalsSection from "@/components/GoalsSection";
+import GoalsSection from "@/components/goal-section";
+import { ThemeProvider } from "@/contexts/theme-context";
 import { ExchangeRateService } from "@/services/exchange-rate";
 import { Contribution, Goal } from "@/types/goal";
 import { useEffect, useState } from "react";
@@ -46,7 +47,7 @@ const initialGoals: Goal[] = [
   },
 ];
 
-export default function Home() {
+function Main() {
   const [goals, setGoals] = useState<Goal[]>(initialGoals);
   const [exchangeRate, setExchangeRate] = useState<number | null>(85);
   const [isLoadingRate, setIsLoadingRate] = useState(false);
@@ -127,8 +128,10 @@ export default function Home() {
     let totalSavedINR = 0;
 
     goals.forEach((goal) => {
-      totalTargetINR += goal.currency === "INR" ? goal.target : goal.target * exchangeRate;
-      totalSavedINR += goal.currency === "INR" ? goal.saved : goal.saved * exchangeRate;
+      totalTargetINR +=
+        goal.currency === "INR" ? goal.target : goal.target * exchangeRate;
+      totalSavedINR +=
+        goal.currency === "INR" ? goal.saved : goal.saved * exchangeRate;
     });
 
     const overallProgress =
@@ -144,7 +147,7 @@ export default function Home() {
   const totals = calculateTotals();
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
       <div className="max-w-6xl mx-auto p-6 space-y-8">
         <DashboardHeader />
 
@@ -165,5 +168,13 @@ export default function Home() {
         />
       </div>
     </div>
+  );
+}
+
+export default function Home() {
+  return (
+    <ThemeProvider>
+      <Main />
+    </ThemeProvider>
   );
 }

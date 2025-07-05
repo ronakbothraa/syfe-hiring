@@ -16,13 +16,13 @@ export default function ProgressBar({ progress, height = "h-2", showLabel = fals
 
   return (
     <div className="space-y-1">
-      <div className={`w-full bg-gray-200 rounded-full ${height} overflow-hidden`}>
+      <div className={`w-full bg-gray-200 dark:bg-gray-700 rounded-full ${height} overflow-hidden`}>
         <div
           className={`${height} ${getProgressColor(progress)} rounded-full transition-all duration-500 ease-out`}
           style={{ width: `${Math.min(progress, 100)}%` }}
         />
       </div>
-      {showLabel && <div className="text-xs text-gray-600 text-right">{progress}% complete</div>}
+      {showLabel && <div className="text-xs text-gray-600 dark:text-gray-400 text-right">{progress}% complete</div>}
     </div>
   )
 }
