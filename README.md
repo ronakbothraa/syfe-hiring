@@ -12,9 +12,6 @@ Check out the live application deployed on Vercel:
 
 ## 📸 Screenshots
 
-*(Optional but recommended: Add screenshots of your app. You can drag and drop them into the GitHub editor)*
-
-
 | Light Mode | Dark Mode |
 | :---: | :---: |
 | ![image](https://github.com/user-attachments/assets/bdfa3aea-1f15-4109-a87b-709a704bd71d) | ![image](https://github.com/user-attachments/assets/62bd5126-b8c4-4343-87f1-3669f6b789e3) |
