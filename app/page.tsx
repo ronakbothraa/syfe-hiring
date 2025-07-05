@@ -3,8 +3,9 @@
 import DashboardBanner from "@/components/DashboardBanner";
 import DashboardHeader from "@/components/DashboardHeader";
 import GoalsSection from "@/components/GoalsSection";
-import { Goal } from "@/types/goal";
-import { useState } from "react";
+import { ExchangeRateService } from "@/services/exchange-rate";
+import { Contribution, Goal } from "@/types/goal";
+import { useEffect, useState } from "react";
 
 const initialGoals: Goal[] = [
   {
@@ -43,11 +44,104 @@ const initialGoals: Goal[] = [
     currency: "USD",
     createdAt: "2024-01-01",
   },
-]
+];
 
 export default function Home() {
-
+  const [goals, setGoals] = useState<Goal[]>(initialGoals);
   const [exchangeRate, setExchangeRate] = useState<number | null>(85);
+  const [isLoadingRate, setIsLoadingRate] = useState(false);
+
+  useEffect(() => {
+    const something = async () => {
+      setExchangeRate(await ExchangeRateService());
+    };
+    something();
+  }, []);
+
+  const loadExchangeRate = async () => {
+    setIsLoadingRate(true);
+    try {
+      setExchangeRate(await ExchangeRateService());
+    } catch (error) {
+      console.error("Failed to load exchange rate:", error);
+    } finally {
+      setIsLoadingRate(false);
+    }
+  };
+
+  const handleAddContribution = (
+    goalId: string,
+    amount: number,
+    date: string
+  ) => {
+    setGoals((prevGoals) =>
+      prevGoals.map((goal) => {
+        if (goal.id === goalId) {
+          const newContribution: Contribution = {
+            id: Date.now().toString(),
+            amount,
+            date,
+            timestamp: new Date().toISOString(),
+          };
+
+          const newSaved = goal.saved + amount;
+          const newProgress = Math.min((newSaved / goal.target) * 100, 100);
+          const newRemaining = Math.max(goal.target - newSaved, 0);
+
+          return {
+            ...goal,
+            saved: newSaved,
+            progress: Math.round(newProgress),
+            remaining: newRemaining,
+            contributions: [...goal.contributions, newContribution],
+          };
+        }
+        return goal;
+      })
+    );
+  };
+
+  const handleAddGoal = (
+    newGoal: Omit<
+      Goal,
+      "id" | "saved" | "progress" | "contributions" | "remaining" | "createdAt"
+    >
+  ) => {
+    const goal: Goal = {
+      ...newGoal,
+      id: Date.now().toString(),
+      saved: 0,
+      progress: 0,
+      contributions: [],
+      remaining: newGoal.target,
+      createdAt: new Date().toISOString(),
+    };
+    setGoals((prevGoals) => [...prevGoals, goal]);
+  };
+
+  const calculateTotals = () => {
+    if (!exchangeRate)
+      return { totalTarget: 0, totalSaved: 0, overallProgress: 0 };
+
+    let totalTargetINR = 0;
+    let totalSavedINR = 0;
+
+    goals.forEach((goal) => {
+      totalTargetINR += goal.currency === "INR" ? goal.target : goal.target * exchangeRate;
+      totalSavedINR += goal.currency === "INR" ? goal.saved : goal.saved * exchangeRate;
+    });
+
+    const overallProgress =
+      totalTargetINR > 0 ? (totalSavedINR / totalTargetINR) * 100 : 0;
+
+    return {
+      totalTarget: totalTargetINR,
+      totalSaved: totalSavedINR,
+      overallProgress: Math.round(overallProgress),
+    };
+  };
+
+  const totals = calculateTotals();
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -55,30 +149,19 @@ export default function Home() {
         <DashboardHeader />
 
         <DashboardBanner
-          totalTarget={500000000}
-          totalSaved={167000}
-          overallProgress={Math.floor(500000000/167000)}
+          totalTarget={totals.totalTarget}
+          totalSaved={totals.totalSaved}
+          overallProgress={totals.overallProgress}
           exchangeRate={exchangeRate}
-          isLoadingRate={true}
-          onRefreshRate={() => setExchangeRate(85)}
+          isLoadingRate={isLoadingRate}
+          onRefreshRate={loadExchangeRate}
         />
 
-        <GoalsSection 
-          goals={initialGoals}
+        <GoalsSection
+          goals={goals}
           exchangeRate={exchangeRate}
-          onAddGoal={(goal) => {
-            const newGoal: Goal = {
-              ...goal,
-              id: Math.random().toString(36).substring(2, 15),
-              saved: 0,
-              progress: 0,
-              contributions: [],
-              remaining: goal.target,
-              createdAt: new Date().toISOString(),
-            };
-            initialGoals.push(newGoal);
-          }}
-          onAddContribution={() => {}}
+          onAddContribution={handleAddContribution}
+          onAddGoal={handleAddGoal}
         />
       </div>
     </div>

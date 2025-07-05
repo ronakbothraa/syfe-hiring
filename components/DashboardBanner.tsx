@@ -74,7 +74,7 @@ export default function DashboardBanner({
 
       <div className="flex items-center justify-between text-sm opacity-80">
         <span>Exchange Rate: 1 USD = ₹{exchangeRate?.toFixed(2) || "Loading..."}</span>
-        <span>Last updated: {"Loading..."}</span>
+        <span>Last updated: {"Few Mins Ago"}</span>
       </div>
     </div>
   )

@@ -10,7 +10,7 @@ import { useState } from "react";
 interface GoalsSectionProps {
   goals: Goal[];
   exchangeRate: number | null;
-  onAddContribution: () => void;
+  onAddContribution: (goalId: string, amount: number, date: string) => void
   onAddGoal: (
     goal: Omit<
       Goal,
